@@ -14,9 +14,10 @@ services:
         depends_on:
           - app
     app:
-        build: .
         container_name: app
         hostname: app
+        build: ./.docker/php
+        entrypoint: dockerize -wait tcp://mysql:3306 -timeout 40s ./.docker/entrypoint.sh
         ports:
         - "9000:9000"
         volumes:
