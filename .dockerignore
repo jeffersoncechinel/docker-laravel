@@ -1,0 +1,12 @@
+.git*
+.docker/php
+.docker/nginx
+.docker/entrypoint.sh
+.docker/env
+docker-compose.yaml
+docker-compose.cloudbuild.yaml
+cloudbuild.yaml
+Dockerfile*
+readme.md
+.idea
+.php_cs.cache

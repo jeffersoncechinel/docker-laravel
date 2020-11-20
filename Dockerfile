@@ -13,7 +13,13 @@ RUN php -r "unlink('composer-setup.php');"
 
 WORKDIR /var/www
 RUN rm -rf /var/www/public
+COPY . /var/www
 RUN ln -s public html
+
+RUN composer install \
+    && php artisan config:cache \
+    && chown -R www-data:www-data /var/www \
+    && chmod -R 775 /var/www/storage
 
 EXPOSE 9000
 ENTRYPOINT ["php-fpm"]
