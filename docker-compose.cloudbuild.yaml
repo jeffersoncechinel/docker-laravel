@@ -1,0 +1,59 @@
+version: '3'
+services:
+    nginx:
+        container_name: nginx
+        hostname: nginx
+        build: ./.docker/nginx
+        ports:
+        - "8000:80"
+        volumes:
+        - .:/var/www
+        command: [nginx-debug, '-g', 'daemon off;']
+        networks:
+          - dev-network
+        depends_on:
+          - app
+    app:
+        build: .
+        container_name: app
+        hostname: app
+        ports:
+        - "9000:9000"
+        volumes:
+         - .:/var/www
+        networks:
+          - dev-network
+        depends_on:
+          - mysql
+          - redis
+    mysql:
+        image: mysql:5.7
+        command: --innodb-use-native-aio=0
+        restart: always
+        tty: true
+        hostname: mysql
+        container_name: mysql
+        ports:
+          - "3306:3306"
+        volumes:
+          - ./.docker/data/mysql/var/lib/mysql:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: laravel
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            MYSQL_ROOT_PASSWORD: ""
+        networks:
+          - dev-network
+    redis:
+        image: redis
+        hostname: redis
+        container_name: redis
+        volumes:
+          - ./.docker/data/redis/data:/data/db
+        ports:
+          - "6379:6379"
+        networks:
+          - dev-network
+networks:
+  dev-network:
+    driver: bridge
+

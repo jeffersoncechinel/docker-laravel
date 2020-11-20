@@ -1,0 +1,4 @@
+steps:
+    - id: "Rodando docker-composer"
+      name: 'grc.io/$PROJECT_ID/docker-composer'
+      args: ['-f', 'docker-compose.cloudbuild.yaml', 'up', '-d']
