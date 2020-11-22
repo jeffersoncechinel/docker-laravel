@@ -7,11 +7,11 @@ steps:
     name: 'docker'
     args: [ 'exec','-u','root','-t','app','chown','-R','www-data:www-data','/var/www' ]
 
-  - id: "Running composer"
+  - id: "Running php composer"
     name: 'docker'
     args: [ 'exec', '-t', 'app', 'composer', 'install' ]
 
-  - id: "Coping .env file"
+  - id: "Copying .env file"
     name: 'docker'
     args: [ 'exec', '-t', 'app', 'cp', '.docker/env', '.env' ]
 
