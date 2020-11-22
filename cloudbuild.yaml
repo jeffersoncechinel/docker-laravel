@@ -3,9 +3,9 @@ steps:
     name: 'docker/compose'
     args: [ '-f', 'docker-compose.cloudbuild.yaml', 'up', '-d' ]
 
-  - id: "Running docker ps"
+  - id: "Chown in /var/www"
     name: 'docker'
-    args: [ 'ps' ]
+    args: [ 'exec','-u','root','-t','app','chown','-R','www-data:www-data','/var/www' ]
 
   - id: "Running composer"
     name: 'docker'
