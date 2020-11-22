@@ -13,7 +13,7 @@ steps:
 
   - id: "Coping .env file"
     name: 'docker'
-    args: [ 'exec', '-t', 'app', 'cp', '.env.example', '.env' ]
+    args: [ 'exec', '-t', 'app', 'cp', '.docker/env', '.env' ]
 
   - id: "Running key generate"
     name: 'docker'
