@@ -7,6 +7,10 @@ steps:
     name: 'docker'
     args: [ 'ps' ]
 
+  - id: "Running composer"
+    name: 'docker'
+    args: [ 'exec', '-t', 'app', 'composer', 'install' ]
+
   - id: "Running phpunit"
     name: 'docker'
     args: [ 'exec', '-t', 'app', 'php', '/var/www/vendor/bin/phpunit', '-c', '/var/www/phpunit.xml' ]
