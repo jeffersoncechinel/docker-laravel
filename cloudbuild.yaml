@@ -11,7 +11,7 @@ steps:
     name: 'docker'
     args: [ 'exec', '-t', 'app', 'composer', 'install' ]
 
-  - id: "Coping .env file"
+  - id: "Copying .env file"
     name: 'docker'
     args: [ 'exec', '-t', 'app', 'cp', '.docker/env', '.env' ]
 
