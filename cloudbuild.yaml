@@ -1,4 +1,8 @@
 steps:
-    - id: "Rodando docker-composer"
-      name: 'grc.io/$PROJECT_ID/docker-compose'
-      args: ['-f', 'docker-compose.cloudbuild.yaml', 'up', '-d']
+  - id: "Rodando docker-composer"
+    name: 'grc.io/$PROJECT_ID/docker-compose:1.14.0'
+    args: [ '-f', 'docker-compose.cloudbuild.yaml', 'up', '-d' ]
+
+  - id: "Rodando docker ps"
+      name: 'grc.io/cloud-builders/docker'
+      args: [ 'ps' ]
