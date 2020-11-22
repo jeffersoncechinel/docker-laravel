@@ -1,0 +1,36 @@
+steps:
+  - id: "Running docker-compose"
+    name: 'docker/compose'
+    args: [ '-f', 'docker-compose.cloudbuild.yaml', 'up', '-d' ]
+
+  - id: "Chown in /var/www"
+    name: 'docker'
+    args: [ 'exec','-u','root','-t','app','chown','-R','www-data:www-data','/var/www' ]
+
+  - id: "Running php composer"
+    name: 'docker'
+    args: [ 'exec', '-t', 'app', 'composer', 'install' ]
+
+  - id: "Copying .env file"
+    name: 'docker'
+    args: [ 'exec', '-t', 'app', 'cp', '.docker/env', '.env' ]
+
+  - id: "Running key generate"
+    name: 'docker'
+    args: [ 'exec', '-t', 'app', '/var/www/artisan', 'key:generate' ]
+
+  - id: "Running migrations"
+    name: 'docker'
+    args: [ 'exec', '-t', 'app', '/var/www/artisan', 'migrate' ]
+
+  - id: "Running phpunit"
+    name: 'docker'
+    args: [ 'exec', '-t', 'app', 'php', '/var/www/vendor/bin/phpunit', '-c', '/var/www/phpunit.xml' ]
+
+  - id: "Building image from Dockerfile.prod"
+    name: 'docker'
+    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA', '-f', 'Dockerfile.prod', '.' ]
+
+  - id: "Pushing image"
+    name: 'docker'
+    args: [ 'push', 'gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA' ]
