@@ -35,8 +35,8 @@ services:
         container_name: mysql
         ports:
           - "3306:3306"
-        volumes:
-          - ./.docker/data/mysql/var/lib/mysql:/var/lib/mysql
+       # volumes:
+       #   - ./.docker/data/mysql/var/lib/mysql:/var/lib/mysql
         environment:
             MYSQL_DATABASE: laravel
             MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
