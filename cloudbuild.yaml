@@ -1,8 +1,12 @@
 steps:
-  - id: "Rodando docker-composer"
+  - id: "Running docker-composer"
     name: 'docker/compose'
     args: [ '-f', 'docker-compose.cloudbuild.yaml', 'up', '-d' ]
 
-  - id: "Rodando docker ps"
+  - id: "Running docker ps"
     name: 'docker'
     args: [ 'ps' ]
+
+  - id: "Running phpunit"
+    name: 'docker'
+    args: [ 'exec', '-t', 'app', 'php', '/var/www/vendor/bin/phpunit', '-c', '/var/www/phpunit.xml' ]
