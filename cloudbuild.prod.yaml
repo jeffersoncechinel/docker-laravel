@@ -11,6 +11,14 @@ steps:
     name: 'docker'
     args: [ 'exec', '-t', 'app', 'composer', 'install' ]
 
+  - id: "Adjusting env file - k8s"
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: '/bin/sh'
+    args:
+      - '-c'
+      - |
+        sed 's#DB_HOST=mysql#DB_HOST=mysql-server#g' .env > .env
+
   - id: "Copying .env file"
     name: 'docker'
     args: [ 'exec', '-t', 'app', 'cp', '.docker/env', '.env' ]
@@ -42,7 +50,6 @@ steps:
       - '-c'
       - |
         sed 's#img-app-deployment#gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA#g' k8s/app/deployment.yaml > k8s/app/deployment-new.yaml
-        cat k8s/app/deployment-new.yaml
 
   - id: "Deploying app image"
     name: 'gcr.io/cloud-builders/kubectl'
